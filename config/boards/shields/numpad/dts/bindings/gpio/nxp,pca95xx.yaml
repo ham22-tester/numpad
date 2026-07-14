@@ -15,7 +15,8 @@ properties:
     required: true
 
   gpio-controller:
-    type: boolean
+    required: true
+   
 
   "#gpio-cells":
     const: 2
