@@ -1,0 +1,23 @@
+description: NXP PCA9555 I2C GPIO expander
+
+compatible: "nxp,pca9555"
+
+include:
+  - name: gpio-controller.yaml
+  - name: i2c-device.yaml
+
+properties:
+  reg:
+    required: true
+
+  ngpios:
+    type: int
+    required: true
+
+  gpio-controller:
+    type: boolean
+    required: true
+
+  "#gpio-cells":
+    type: int
+    const: 2
