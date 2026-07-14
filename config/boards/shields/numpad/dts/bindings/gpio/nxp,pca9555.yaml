@@ -1,6 +1,6 @@
-description: NXP PCA9555 GPIO expander
+description: NXP PCA95xx GPIO expander
 
-compatible: "nxp,pca9555"
+compatible: "nxp,pca95xx"
 
 include:
   - name: i2c-device.yaml
