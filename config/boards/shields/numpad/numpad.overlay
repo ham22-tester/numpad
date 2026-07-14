@@ -27,37 +27,61 @@
 
         /* 출력 핀 (Cols): 단순히 HIGH 신호를 내보냄 */
         col-gpios
-            = <&tca9555 7 GPIO_ACTIVE_HIGH>
-            , <&tca9555 10 GPIO_ACTIVE_HIGH>
-            , <&tca9555 11 GPIO_ACTIVE_HIGH>
-            , <&tca9555 12 GPIO_ACTIVE_HIGH>;
+            = <&tca9555 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>
+            , <&tca9555 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>
+            , <&tca9555 11 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>
+            , <&tca9555 12 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
 
         /* 입력 핀 (Rows): 📌 반드시 GPIO_PULL_DOWN 플래그를 추가해야 함 */
         row-gpios
-            = <&tca9555 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&tca9555 3 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&tca9555 4 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&tca9555 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&tca9555 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
+            = <&tca9555 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>
+            , <&tca9555 3 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>
+            , <&tca9555 4 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>
+            , <&tca9555 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>
+            , <&tca9555 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
     };
 };
 
+&pinctrl {
+    i2c0_default: i2c0_default {
+        group1 {
+            psels = <
+                NRF_PSEL(TWIM_SDA, 1, 6)
+                NRF_PSEL(TWIM_SCL, 1, 4)
+            >;
+        };
+    };
+
+    i2c0_sleep: i2c0_sleep {
+        group1 {
+            psels = <
+                NRF_PSEL(TWIM_SDA, 1, 6)
+                NRF_PSEL(TWIM_SCL, 1, 4)
+            >;
+            low-power-enable;
+        };
+    };
+};
+
+
 &i2c0 {
+    compatible = "nordic,nrf-twim";
     status = "okay";
-    clock-frequency = <400000>; // 📌 I/O 확장기를 쓸 때는 반응속도를 위해 400kHz(Fast Mode) 권장
 
-    scl-gpios = <&gpio1 4 GPIO_ACTIVE_HIGH>; // SCL: P1.04
-    sda-gpios = <&gpio1 6 GPIO_ACTIVE_HIGH>; // SDA: P1.06
+    pinctrl-0 = <&i2c0_default>;
+    pinctrl-1 = <&i2c0_sleep>;
+    pinctrl-names = "default", "sleep";
 
-    tca9555: tca9555@20 {
+    clock-frequency = <I2C_BITRATE_FAST>;
+
+    tca9555: gpio@20 {
         compatible = "nxp,pca9555";
         reg = <0x20>;
+
         gpio-controller;
         #gpio-cells = <2>;
         ngpios = <16>;
 
-        /* 📌 인터럽트 핀 설정 수정 (int-gpios 및 GPIO_ACTIVE_LOW 적용) */
-        interrupt-parent = <&gpio0>;
-        int-gpios = <&gpio0 11 GPIO_ACTIVE_LOW>;
+        interrupt-gpios = <&gpio0 11 GPIO_ACTIVE_LOW>;
     };
 };
