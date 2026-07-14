@@ -1,5 +1,5 @@
 #include <dt-bindings/zmk/matrix_transform.h>
-#include <dt-bindings/gpio/gpio.h> // GPIO 플래그 사용을 위해 필수 포함
+#include <dt-bindings/gpio/gpio.h>
 
 / {
     chosen {
@@ -25,14 +25,14 @@
         compatible = "zmk,kscan-gpio-matrix";
         diode-direction = "col2row";
 
-        /* 출력 핀 (Cols): 단순히 HIGH 신호를 내보냄 */
+        
         col-gpios
             = <&tca9555 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>
             , <&tca9555 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>
             , <&tca9555 11 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>
             , <&tca9555 12 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
 
-        /* 입력 핀 (Rows): 📌 반드시 GPIO_PULL_DOWN 플래그를 추가해야 함 */
+        
         row-gpios
             = <&tca9555 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>
             , <&tca9555 3 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>
@@ -54,10 +54,8 @@
 
     i2c0_sleep: i2c0_sleep {
         group1 {
-            psels = <
-                NRF_PSEL(TWIM_SDA, 1, 6)
-                NRF_PSEL(TWIM_SCL, 1, 4)
-            >;
+            psels = <NRF_PSEL(TWIM_SDA, 1, 6)>
+                    <NRF_PSEL(TWIM_SCL, 1, 4)>;
             low-power-enable;
         };
     };
