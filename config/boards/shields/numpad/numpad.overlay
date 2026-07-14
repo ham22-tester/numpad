@@ -3,7 +3,6 @@
 #include <dt-bindings/pinctrl/nrf-pinctrl.h>
 #include <zephyr/dt-bindings/i2c/i2c.h>
 
-
 / {
     chosen {
         zmk,kscan = &kscan0;
@@ -15,46 +14,46 @@
         rows = <5>;
         columns = <4>;
 
-        map =
-            <RC(0,0) RC(0,1) RC(0,2) RC(0,3)
+        map = <
+            RC(0,0) RC(0,1) RC(0,2) RC(0,3)
             RC(1,0) RC(1,1) RC(1,2) RC(1,3)
             RC(2,0) RC(2,1) RC(2,2)
             RC(3,0) RC(3,1) RC(3,2) RC(3,3)
-            RC(4,0)         RC(4,2)>;
+            RC(4,0)         RC(4,2)
+        >;
     };
 
     kscan0: kscan {
         compatible = "zmk,kscan-gpio-matrix";
         label = "KSCAN";
-
         diode-direction = "col2row";
 
-        
+        /* 
+         * TCA9555의 내장 100k 풀업을 활용하므로 드라이버를 혼란스럽게 하는 GPIO_PULL_UP 제거
+         * 다이오드 방향(col2row)에 맞추어 보편적인 ACTIVE_LOW 설정으로 깔끔하게 매핑합니다.
+         */
         col-gpios
-            = <&tca9555 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>
-            , <&tca9555 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>
-            , <&tca9555 11 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>
-            , <&tca9555 12 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+            = <&tca9555 7 GPIO_ACTIVE_LOW>
+            , <&tca9555 10 GPIO_ACTIVE_LOW>
+            , <&tca9555 11 GPIO_ACTIVE_LOW>
+            , <&tca9555 12 GPIO_ACTIVE_LOW>;
 
-        
         row-gpios
-            = <&tca9555 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>
-            , <&tca9555 3 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>
-            , <&tca9555 4 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>
-            , <&tca9555 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>
-            , <&tca9555 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+            = <&tca9555 2 GPIO_ACTIVE_LOW>
+            , <&tca9555 3 GPIO_ACTIVE_LOW>
+            , <&tca9555 4 GPIO_ACTIVE_LOW>
+            , <&tca9555 5 GPIO_ACTIVE_LOW>
+            , <&tca9555 6 GPIO_ACTIVE_LOW>;
     };
 };
 
 &pinctrl {
     i2c0_default: i2c0_default {
         group1 {
-            psels =
-                <NRF_PSEL(TWIM_SDA, 1, 6)>,
-                <NRF_PSEL(TWIM_SCL, 1, 4)>;
+            psels = <NRF_PSEL(TWIM_SDA, 1, 6)>,
+                    <NRF_PSEL(TWIM_SCL, 1, 4)>;
         };
     };
-
 
     i2c0_sleep: i2c0_sleep {
         group1 {
@@ -65,24 +64,19 @@
     };
 };
 
-
 &i2c0 {
     status = "okay";
-
     pinctrl-0 = <&i2c0_default>;
     pinctrl-1 = <&i2c0_sleep>;
     pinctrl-names = "default", "sleep";
-
     clock-frequency = <I2C_BITRATE_FAST>;
 
     tca9555: gpio@20 {
-        compatible = "nxp,pca9555";
+        /* Zephyr 드라이버 바인딩이 명확하게 매칭되도록 "ti,tca9555" 선언 */
+        compatible = "ti,tca9555";
         reg = <0x20>;
-
         gpio-controller;
         #gpio-cells = <2>;
         ngpios = <16>;
-
-        //interrupt-gpios = <&gpio0 11 GPIO_ACTIVE_LOW>;
     };
 };
