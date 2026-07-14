@@ -28,7 +28,7 @@
         label = "KSCAN";
         diode-direction = "col2row";
 
-       
+        interval-ms = <10>
         col-gpios
             = <&pca95xx 7 GPIO_ACTIVE_LOW>
             , <&pca95xx 10 GPIO_ACTIVE_LOW>
