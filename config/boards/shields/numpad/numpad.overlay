@@ -74,7 +74,7 @@
     clock-frequency = <I2C_BITRATE_FAST>;
 
     tca9555: gpio@20 {
-        compatible = "nxp,pca95xx";
+        compatible = "nxp,pca9555";
         reg = <0x20>;
 
         gpio-controller;
