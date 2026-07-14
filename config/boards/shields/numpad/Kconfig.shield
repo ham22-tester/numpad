@@ -1,2 +1,2 @@
-config SHIELD_NUMPAD_TEST_HUMAN
+config SHIELD_NUMPAD
     def_bool $(shields_list_contains,numpad)
