@@ -9,10 +9,10 @@
         default_layer {
             bindings = <
                 &kp KP_NUM    &kp KP_SLASH    &kp KP_ASTERISK    &kp KP_MINUS
-                &kp KP N7    &kp KP N8    &kp KP N9    &kp KP NPLUS
-                &kp KP N4    &kp KP N5    &kp KP N6
-                &kp KP N1    &kp KP N2  &kp KP N3 &kp KP NENTER
-                &kp KP N0                &kp KP NDOT
+                &kp KP_N7    &kp KP_N8    &kp KP_N9    &kp KP_NPLUS
+                &kp KP_N4    &kp KP_N5    &kp KP_N6
+                &kp KP_N1    &kp KP_N2  &kp KP_N3 &kp KP_NENTER
+                &kp KP_N0                &kp KP_NDOT
             >;
         };
     };
