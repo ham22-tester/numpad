@@ -32,8 +32,8 @@
         col-gpios
             = <&pca95xx 7 GPIO_ACTIVE_LOW>
             , <&pca95xx 10 GPIO_ACTIVE_LOW>
-            , <&pca95xx 11 GPIO_ACTIVE_LOW>
-            , <&pca95xx 12 GPIO_ACTIVE_LOW>;
+            , <&pca95xx 9 GPIO_ACTIVE_LOW>
+            , <&pca95xx 8 GPIO_ACTIVE_LOW>;
 
         row-gpios
             = <&pca95xx 2 GPIO_ACTIVE_LOW>
@@ -75,5 +75,6 @@
         gpio-controller;
         #gpio-cells = <2>;
         ngpios = <16>;
+        interrupt-gpios = <&gpio0 11 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
     };
 };
