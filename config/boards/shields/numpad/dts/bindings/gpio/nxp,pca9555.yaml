@@ -1,23 +1,40 @@
-description: NXP PCA95xx GPIO expander
+&pinctrl {
+    i2c0_default: i2c0_default {
+        group1 {
+            psels =
+                <NRF_PSEL(TWIM_SDA, 1, 6)>,
+                <NRF_PSEL(TWIM_SCL, 1, 4)>;
+        };
+    };
 
-compatible: "nxp,pca95xx"
 
-include:
-  - name: gpio-controller.yaml
+    i2c0_sleep: i2c0_sleep {
+        group1 {
+            psels = <NRF_PSEL(TWIM_SDA, 1, 6)>,
+                    <NRF_PSEL(TWIM_SCL, 1, 4)>;
+            low-power-enable;
+        };
+    };
+};
 
-properties:
-  reg:
-    type: int
-    required: true
 
-  ngpios:
-    type: int
-    required: true
+&i2c0 {
+    status = "okay";
 
-  gpio-controller:
-    type: boolean
-    required: true
+    pinctrl-0 = <&i2c0_default>;
+    pinctrl-1 = <&i2c0_sleep>;
+    pinctrl-names = "default", "sleep";
 
-  "#gpio-cells":
-    type: int
-    const: 2
+    clock-frequency = <I2C_BITRATE_FAST>;
+
+    tca9555: gpio@20 {
+        compatible = "nxp,pca9555";
+        reg = <0x20>;
+
+        gpio-controller;
+        #gpio-cells = <2>;
+        ngpios = <16>;
+
+        //interrupt-gpios = <&gpio0 11 GPIO_ACTIVE_LOW>;
+    };
+};
