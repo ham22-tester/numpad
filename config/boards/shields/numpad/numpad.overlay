@@ -28,22 +28,19 @@
         label = "KSCAN";
         diode-direction = "col2row";
 
-        /* 
-         * TCA9555의 내장 100k 풀업을 활용하므로 드라이버를 혼란스럽게 하는 GPIO_PULL_UP 제거
-         * 다이오드 방향(col2row)에 맞추어 보편적인 ACTIVE_LOW 설정으로 깔끔하게 매핑합니다.
-         */
+       
         col-gpios
-            = <&tca9555 7 GPIO_ACTIVE_LOW>
-            , <&tca9555 10 GPIO_ACTIVE_LOW>
-            , <&tca9555 11 GPIO_ACTIVE_LOW>
-            , <&tca9555 12 GPIO_ACTIVE_LOW>;
+            = <&pca95xx 7 GPIO_ACTIVE_LOW>
+            , <&pca95xx 10 GPIO_ACTIVE_LOW>
+            , <&pca95xx 11 GPIO_ACTIVE_LOW>
+            , <&pca95xx 12 GPIO_ACTIVE_LOW>;
 
         row-gpios
-            = <&tca9555 2 GPIO_ACTIVE_LOW>
-            , <&tca9555 3 GPIO_ACTIVE_LOW>
-            , <&tca9555 4 GPIO_ACTIVE_LOW>
-            , <&tca9555 5 GPIO_ACTIVE_LOW>
-            , <&tca9555 6 GPIO_ACTIVE_LOW>;
+            = <&pca95xx 2 GPIO_ACTIVE_LOW>
+            , <&pca95xx 3 GPIO_ACTIVE_LOW>
+            , <&pca95xx 4 GPIO_ACTIVE_LOW>
+            , <&pca95xx 5 GPIO_ACTIVE_LOW>
+            , <&pca95xx 6 GPIO_ACTIVE_LOW>;
     };
 };
 
@@ -71,9 +68,9 @@
     pinctrl-names = "default", "sleep";
     clock-frequency = <I2C_BITRATE_FAST>;
 
-    tca9555: gpio@20 {
-        /* Zephyr 드라이버 바인딩이 명확하게 매칭되도록 "ti,tca9555" 선언 */
-        compatible = "ti,tca9555";
+    pca9555: gpio@20 {
+    
+        compatible = "nxp,pca9555";
         reg = <0x20>;
         gpio-controller;
         #gpio-cells = <2>;
