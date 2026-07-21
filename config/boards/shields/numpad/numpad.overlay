@@ -22,8 +22,10 @@
             RC(4,0)         RC(4,2)
         >;
     };
-
+    
     kscan0: kscan {
+        debounce-press-ms = <5>;
+        debounce-release-ms = <5>;
         compatible = "zmk,kscan-gpio-matrix";
         label = "KSCAN";
         diode-direction = "col2row";
