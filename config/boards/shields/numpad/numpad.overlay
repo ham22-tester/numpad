@@ -24,6 +24,7 @@
     };
     
     kscan0: kscan {
+        wait-gpios-deassert-ms = <5>;
         debounce-press-ms = <10>;
         debounce-release-ms = <10>;
         compatible = "zmk,kscan-gpio-matrix";
@@ -32,17 +33,17 @@
 
        
         col-gpios
-            = <&gpio_expander 7  (GPIO_ACTIVE_LOW)>   /* P1_0 */
-            , <&gpio_expander 10  (GPIO_ACTIVE_LOW)>   /* P1_1 */
-            , <&gpio_expander 9 (GPIO_ACTIVE_LOW)>   /* P1_2 */
-            , <&gpio_expander 8 (GPIO_ACTIVE_LOW)>;  /* P1_3 */
+            = <&pca95xx 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>
+            , <&pca95xx 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>
+            , <&pca95xx 9 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>
+            , <&pca95xx 8 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
 
         row-gpios
-           = <&gpio_expander 2 (GPIO_ACTIVE_LOW)>    /* P0_0 */
-            , <&gpio_expander 3 (GPIO_ACTIVE_LOW)>    /* P0_1 */
-            , <&gpio_expander 4 (GPIO_ACTIVE_LOW)>    /* P0_2 */
-            , <&gpio_expander 5 (GPIO_ACTIVE_LOW)>    /* P0_3 */
-            , <&gpio_expander 6 (GPIO_ACTIVE_LOW)>;   /* P0_4 */
+           = <&pca95xx 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>
+            , <&pca95xx 3 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>
+            , <&pca95xx 4 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>
+            , <&pca95xx 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>
+            , <&pca95xx 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
 };
 
 &pinctrl {
