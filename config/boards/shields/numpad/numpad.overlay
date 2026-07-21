@@ -29,6 +29,7 @@
         debounce-release-ms = <15>;
         compatible = "zmk,kscan-gpio-matrix";
         label = "KSCAN";
+        status = "okay";
         diode-direction = "col2row";
 
        
@@ -72,7 +73,7 @@
     clock-frequency = <I2C_BITRATE_FAST>;
 
     pca95xx: gpio@20 {
-    
+        status = "okay";
         compatible = "nxp,pca95xx";
         reg = <0x20>;
         gpio-controller;
